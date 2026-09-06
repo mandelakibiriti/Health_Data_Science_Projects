@@ -4,7 +4,7 @@ name: Deploy Math for AI site
 
 on:
   push:
-    branches: [main, feature/publish-math-for-ai-site]
+    branches: [main]
     paths:
       - "math-for-ai-site/math-for-ai/**"
       - "README.md"
