@@ -1,0 +1,51 @@
+# Builds the math-for-ai-site/math-for-ai/ folder with Jekyll and publishes it to GitHub Pages.
+# Repo settings → Pages → Source must be set to "GitHub Actions" for this to deploy.
+name: Deploy Math for AI site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "math-for-ai-site/math-for-ai/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: math-for-ai-site/math-for-ai
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Build with Jekyll
+        working-directory: math-for-ai-site/math-for-ai
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: math-for-ai-site/math-for-ai/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
