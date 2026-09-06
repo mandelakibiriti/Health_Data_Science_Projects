@@ -7,6 +7,7 @@ on:
     branches: [main, feature/publish-math-for-ai-site]
     paths:
       - "math-for-ai-site/math-for-ai/**"
+      - "README.md"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -31,6 +32,8 @@ jobs:
           working-directory: math-for-ai-site/math-for-ai
       - uses: actions/configure-pages@v5
         id: pages
+      - name: Copy repo-root README into site source
+        run: cp README.md math-for-ai-site/math-for-ai/README.md
       - name: Build with Jekyll
         working-directory: math-for-ai-site/math-for-ai
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
