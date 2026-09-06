@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math for AI — 13-week schedule from four Schaum's Outlines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --ink:#172033; --muted:#5b6472; --rule:#d7dce4;
+  --teal:#0b6b63; --teal-soft:#e2f1ee;
+  --la:#2f5fb3; --la-bg:#e6edf9;
+  --calc:#2e7d4f; --calc-bg:#e4f2ea;
+  --stat:#a3641a; --stat-bg:#f8ecda;
+  --adv:#6c46a6; --adv-bg:#ece5f6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131822; --surface:#1b2230; --ink:#e7eaf0; --muted:#a3abb8; --rule:#2c3543;
+    --teal:#63c4b7; --teal-soft:#173934;
+    --la:#8db0f0; --la-bg:#1e2c47;
+    --calc:#8bd1a8; --calc-bg:#1b3527;
+    --stat:#e5b46f; --stat-bg:#3b2d17;
+    --adv:#c0a3ec; --adv-bg:#2c2242;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131822; --surface:#1b2230; --ink:#e7eaf0; --muted:#a3abb8; --rule:#2c3543;
+  --teal:#63c4b7; --teal-soft:#173934;
+  --la:#8db0f0; --la-bg:#1e2c47;
+  --calc:#8bd1a8; --calc-bg:#1b3527;
+  --stat:#e5b46f; --stat-bg:#3b2d17;
+  --adv:#c0a3ec; --adv-bg:#2c2242;
+}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.55}
+main{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+h1,h2,h3{font-family:"IBM Plex Serif",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0}
+h1{font-size:clamp(1.9rem,4.5vw,2.8rem);max-width:22ch}
+h2{font-size:1.45rem;margin:3rem 0 1rem}
+h3{font-size:1.1rem}
+p{margin:.6rem 0;max-width:70ch}
+.lede{font-size:1.08rem;color:var(--muted);max-width:62ch;margin-top:1rem}
+a{color:var(--teal)}
+code{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+
+/* phase timeline (this is a real sequence, so a numbered strip is warranted) */
+.timeline{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:2rem 0 .5rem}
+.timeline span{height:14px;border-radius:2px;background:var(--rule)}
+.timeline .p1{background:var(--la)}.timeline .p2{background:var(--stat)}.timeline .p3{background:var(--adv)}.timeline .p4{background:var(--teal)}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:0 0 1rem}
+.phases div{border-top:3px solid var(--rule);padding-top:.5rem;font-size:.92rem}
+.phases div:nth-child(1){border-color:var(--la)}.phases div:nth-child(2){border-color:var(--stat)}.phases div:nth-child(3){border-color:var(--adv)}.phases div:nth-child(4){border-color:var(--teal)}
+.phases b{display:block;font-weight:600}
+.phases small{color:var(--muted)}
+
+/* book legend */
+.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem 1.25rem;margin:1rem 0}
+.books div{font-size:.92rem;padding-left:.75rem;border-left:4px solid}
+.books .bla{border-color:var(--la)}.books .bcalc{border-color:var(--calc)}.books .bstat{border-color:var(--stat)}.books .badv{border-color:var(--adv)}
+.books b{display:block}
+.books small{color:var(--muted)}
+
+/* chips: color encodes which book a reading comes from */
+.chip{display:inline-block;font-size:.78rem;font-weight:600;padding:.05rem .5rem;border-radius:3px;margin-right:.35rem;vertical-align:middle;white-space:nowrap}
+.chip.la{background:var(--la-bg);color:var(--la)}
+.chip.calc{background:var(--calc-bg);color:var(--calc)}
+.chip.stat{background:var(--stat-bg);color:var(--stat)}
+.chip.adv{background:var(--adv-bg);color:var(--adv)}
+.tag{font-size:.75rem;color:var(--muted);font-weight:500}
+
+/* rhythm table */
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;vertical-align:top;padding:.5rem .6rem;border-bottom:1px solid var(--rule)}
+th{font-weight:600}
+.scroll{overflow-x:auto}
+
+/* weeks */
+.week{background:var(--surface);border:1px solid var(--rule);border-radius:6px;margin:1.1rem 0;padding:1.1rem 1.25rem 1.25rem}
+.week.ph1{border-left:5px solid var(--la)}.week.ph2{border-left:5px solid var(--stat)}.week.ph3{border-left:5px solid var(--adv)}.week.ph4{border-left:5px solid var(--teal)}
+.wk-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;margin-bottom:.75rem}
+.wk-head .num{font-family:"IBM Plex Serif",Georgia,serif;font-size:1.5rem;font-weight:600;min-width:2.2ch}
+.wk-head .dates{color:var(--muted);font-size:.9rem}
+.wk-head h3{flex:1 1 100%;margin-top:-.2rem}
+.wk-head label{margin-left:auto;font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;cursor:pointer}
+.wk-head input{width:16px;height:16px;accent-color:var(--teal)}
+.week.done{opacity:.6}
+.cols{display:grid;grid-template-columns:1.1fr 1fr;gap:1.25rem}
+@media (max-width:700px){.cols{grid-template-columns:1fr}.phases{grid-template-columns:1fr 1fr}}
+.col h4{font-size:.8rem;font-weight:600;color:var(--muted);margin:0 0 .4rem;letter-spacing:.01em}
+.col ul{margin:0;padding-left:1.1rem}
+.col li{margin:.3rem 0;font-size:.95rem}
+.col p{font-size:.95rem}
+.why{background:var(--teal-soft);border-radius:5px;padding:.75rem .9rem}
+.why h4{color:var(--teal)}
+.build{margin-top:.9rem;padding-top:.7rem;border-top:1px dashed var(--rule)}
+.check{margin-top:.9rem;padding:.6rem .9rem;border:1px solid var(--rule);border-radius:5px;font-size:.92rem}
+.check b{font-weight:600}
+
+/* gaps + map */
+.gaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem 1.5rem}
+.gaps div{font-size:.93rem;padding:.6rem 0;border-top:1px solid var(--rule)}
+.gaps b{display:block}
+.map th:first-child,.map td:first-child{white-space:nowrap}
+footer{margin-top:3rem;color:var(--muted);font-size:.85rem;border-top:1px solid var(--rule);padding-top:1rem}
+@media print{.wk-head label{display:none}.week{break-inside:avoid;box-shadow:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Thirteen weeks of mathematics for building AI systems</h1>
+<p class="lede">A reading-and-building schedule, 7 September to 6 December 2026, drawn from four Schaum's Outlines: Linear Algebra, Calculus, Statistics, and Advanced Mathematics for Engineers and Scientists. Each week pairs specific chapters with the AI concepts they unlock, from classical machine learning through transformers and diffusion models.</p>
+
+<div class="timeline" aria-hidden="true">
+  <span class="p1"></span><span class="p1"></span><span class="p1"></span><span class="p1"></span>
+  <span class="p2"></span><span class="p2"></span><span class="p2"></span><span class="p2"></span>
+  <span class="p3"></span><span class="p3"></span><span class="p3"></span><span class="p3"></span>
+  <span class="p4"></span>
+</div>
+<div class="phases">
+  <div><b>Weeks 1–4: The substrate</b><small>Vectors, matrices, linear maps, calculus refresh. Everything a neural network computes is built from these.</small></div>
+  <div><b>Weeks 5–8: Learning from data</b><small>Probability, distributions, estimation, testing, regression, and the chain rule that becomes backpropagation.</small></div>
+  <div><b>Weeks 9–12: Structure and dynamics</b><small>Gradients and optimisation, eigenstructure and SVD, Fourier and vector calculus, differential equations. The mathematics of deep learning and generative models.</small></div>
+  <div><b>Week 13: Consolidation</b><small>Capstone build and a written map from each chapter to where it lives in a modern AI stack.</small></div>
+</div>
+
+<h2>How to use the four books</h2>
+<p>Schaum's Outlines are not meant to be read cover to cover. Each chapter opens with a compressed theory summary, then earns its keep through solved problems. The method that works: read the summary once, work three to five solved problems with the solution covered, then attempt five to eight supplementary problems. Roughly 40% of the total page count across the four books is scheduled below; the rest (curve sketching, related rates, volumes of revolution, Bessel and Legendre functions, process control) is either prerequisite refresher or engineering material with little bearing on AI.</p>
+
+<div class="books">
+  <div class="bla"><b>Linear Algebra (4th ed., 13 ch.)</b><small>The most important of the four. Nine of thirteen chapters scheduled.</small></div>
+  <div class="bcalc"><b>Calculus (5th ed., 59 ch.)</b><small>Short chapters. Used selectively: derivatives, exp/log, integration basics, series, partial derivatives, gradients, multiple integrals.</small></div>
+  <div class="bstat"><b>Statistics (18 ch.)</b><small>Chapters 3–14 are the core. Descriptive statistics through probability, distributions, estimation, testing and least squares.</small></div>
+  <div class="badv"><b>Advanced Mathematics for Engineers &amp; Scientists (16 ch.)</b><small>Dipped into for vector analysis, Fourier, ODEs, special functions, and the calculus of variations.</small></div>
+</div>
+
+<p class="tag">Priority labels on each reading: <b>Core</b> = do the solved problems; <b>Skim</b> = read the theory summary only; <b>Optional</b> = if time allows.</p>
+
+<h2>Weekly rhythm (about 10 hours)</h2>
+<div class="scroll"><table>
+<tr><th>Day</th><th>Block</th><th>What</th></tr>
+<tr><td>Mon–Thu</td><td>75–90 min each</td><td>Read the theory summary of the assigned chapter, then solved problems. Keep a running notebook of definitions and formulas in your own words.</td></tr>
+<tr><td>Fri</td><td>90 min</td><td>The "Build" exercise: implement the week's idea in Python/NumPy so the mathematics becomes code you have typed.</td></tr>
+<tr><td>Sat</td><td>2 hours</td><td>Supplementary problems from the week's chapters. Aim for 10–15 across all books. This is where understanding sets.</td></tr>
+<tr><td>Sun</td><td>30 min</td><td>Review the notebook, tick the week off below, note what still feels shaky. Rest.</td></tr>
+</table></div>
+
+<h2>Phase 1 · The substrate (Weeks 1–4)</h2>
+
+<section class="week ph1" data-week="1">
+  <div class="wk-head"><span class="num">1</span><span class="dates">7–13 Sep</span><label><input type="checkbox"> Done</label>
+    <h3>Vectors, dot products, and the algebra of matrices</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip la">LinAlg</span>Ch 1 Vectors in Rⁿ (1.1–1.6) <span class="tag">Core</span>; 1.7–1.8 complex vectors <span class="tag">Skim</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 2 Algebra of Matrices (2.1–2.10, 2.12 block matrices) <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 6 Functions, Ch 7 Limits, Ch 8 Continuity <span class="tag">Skim</span></li>
+      <li><span class="chip calc">Calc</span>Ch 9 The Derivative, Ch 10 Differentiation Rules <span class="tag">Core, as refresher</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>A tensor is a stack of matrices; every dense layer, every attention score, every embedding lookup is matrix multiplication. The dot product is similarity, which is exactly what a vector database computes when it ranks retrieved passages for a RAG system. Block matrices are how multi-head attention concatenates heads and how weight matrices are sharded across GPUs. Summation notation (2.4) is the notation you will read in every paper.</p></div>
+    <div class="build"><h4>Build</h4><p>Implement matrix multiplication with explicit loops, then with <code>np.einsum</code>, and confirm they agree. Write <code>cosine_similarity(a, b)</code> and rank a handful of hand-made "embedding" vectors against a query.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph1" data-week="2">
+  <div class="wk-head"><span class="num">2</span><span class="dates">14–20 Sep</span><label><input type="checkbox"> Done</label>
+    <h3>Solving systems, and the idea of a vector space</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip la">LinAlg</span>Ch 3 Systems of Linear Equations (3.1–3.11 Gaussian elimination, echelon form; 3.13 LU decomposition) <span class="tag">Core</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 4 Vector Spaces (4.2–4.9: span, subspaces, independence, basis, dimension, rank) <span class="tag">Core</span>; 4.10–4.11 <span class="tag">Skim</span></li>
+      <li><span class="chip calc">Calc</span>Ch 11 Implicit Differentiation, Ch 13 Mean Value Theorem, Ch 14 Maxima and Minima <span class="tag">Core</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Rank is the single most useful idea this week. LoRA fine-tunes a large model by learning a low-rank update <em>W + BA</em> instead of a full matrix, and that only makes sense once rank and dimension are intuitive. Linear independence explains why collinear features break linear regression and why embedding dimensions can be "wasted". Basis and coordinates are what a tokenizer plus embedding table actually produce: a coordinate vector in a learned basis. Maxima and minima set up optimisation.</p></div>
+    <div class="build"><h4>Build</h4><p>Solve a small linear system by hand with row reduction, then check with <code>np.linalg.solve</code>. Generate a random 512×512 matrix as <code>B @ A</code> with rank 8, confirm <code>np.linalg.matrix_rank</code>, and count how many parameters that saves versus the full matrix.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph1" data-week="3">
+  <div class="wk-head"><span class="num">3</span><span class="dates">21–27 Sep</span><label><input type="checkbox"> Done</label>
+    <h3>Linear maps, change of basis, and exp/log</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip la">LinAlg</span>Ch 5 Linear Mappings (5.2–5.6: kernel, image, isomorphisms) <span class="tag">Core</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 6 Linear Mappings and Matrices (6.2–6.4: matrix representation, change of basis, similarity) <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 25 Natural Logarithm, Ch 26 Exponential and Logarithmic Functions <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 27 L'Hôpital's Rule, Ch 28 Exponential Growth and Decay <span class="tag">Skim</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>A neural network layer is a linear map followed by a pointwise non-linearity; the kernel of that map is information the layer throws away. Change of basis is what a projection head does, what PCA does, and what "rotating" an embedding space means in interpretability work. The exponential and logarithm underpin softmax, log-likelihood, cross-entropy, and the log-sum-exp trick that keeps training numerically stable. Exponential decay is your learning-rate schedule.</p></div>
+    <div class="build"><h4>Build</h4><p>Apply a 2×2 matrix to a grid of points and plot before/after to see a linear map as a geometric deformation. Implement <code>softmax</code> naively, watch it overflow on large logits, then fix it with the log-sum-exp shift.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph1" data-week="4">
+  <div class="wk-head"><span class="num">4</span><span class="dates">28 Sep – 4 Oct</span><label><input type="checkbox"> Done</label>
+    <h3>Inner products, norms, orthogonality, determinants, integrals</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip la">LinAlg</span>Ch 7 Inner Product Spaces (7.2–7.8 Cauchy–Schwarz, orthogonal bases, Gram–Schmidt, positive definite matrices; 7.10 normed spaces) <span class="tag">Core</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 8 Determinants (8.1–8.10, 8.13 determinants and volume) <span class="tag">Core</span>; rest <span class="tag">Optional</span></li>
+      <li><span class="chip calc">Calc</span>Ch 22 Antiderivatives, Ch 23 Definite Integral, Ch 24 Fundamental Theorem <span class="tag">Core</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Norms are everywhere: L2 weight decay, L1 sparsity, gradient clipping, LayerNorm and RMSNorm, and the unit-normalised embeddings that make cosine similarity a plain dot product. Cauchy–Schwarz is why cosine similarity lies in [−1, 1]. Orthogonal matrices preserve norms, which is why orthogonal initialisation and QR-based tricks help deep networks train. The determinant as a volume factor is the key to normalising flows and change-of-variables in generative models. Integrals are expectations, and expectations are what every loss function really is.</p></div>
+    <div class="build"><h4>Build</h4><p>Implement Gram–Schmidt and verify <code>Qᵀ Q = I</code>. Implement LayerNorm from the formula. Compute the determinant of a random 2×2 and measure how it scales the area of a unit square.</p></div>
+    <div class="check"><b>Phase 1 checkpoint.</b> You should be able to explain, without notes: what rank means for LoRA, why softmax needs the log-sum-exp shift, and what LayerNorm computes and why.</div></div>
+  </div>
+</section>
+
+<h2>Phase 2 · Learning from data (Weeks 5–8)</h2>
+
+<section class="week ph2" data-week="5">
+  <div class="wk-head"><span class="num">5</span><span class="dates">5–11 Oct</span><label><input type="checkbox"> Done</label>
+    <h3>Describing data, and probability from first principles</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip stat">Stats</span>Ch 1 Variables and Graphs, Ch 2 Frequency Distributions <span class="tag">Skim</span></li>
+      <li><span class="chip stat">Stats</span>Ch 3 Mean, Median, Mode; Ch 4 Standard Deviation and Dispersion <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 5 Moments, Skewness, Kurtosis <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 6 Elementary Probability Theory (conditional probability, independence, Bayes, random variables, expectation, combinatorics) <span class="tag">Core, the heaviest week in this book</span></li>
+    </ul></div>
+    <div class="col"><h4>Where it lives in AI</h4><div class="why"><p>Standardisation (subtract mean, divide by standard deviation) is the first thing done to features and is exactly what BatchNorm computes on activations. Moments are the language of distribution shift, and skew and kurtosis tell you when a Gaussian assumption is lying. Bayes' theorem is naive Bayes, Bayesian optimisation for hyperparameters, the posterior in a VAE, and the correct way to reason about a model's predicted probabilities against a base rate. Expectation is the operator inside every loss: training minimises expected loss over the data distribution.</p></div>
+    <div class="build"><h4>Build</h4><p>Take any tabular dataset, compute mean, std, skew, and kurtosis per column, and standardise it. Implement Bayes' rule for a diagnostic-test style problem (prior, sensitivity, specificity) and plot posterior against prior.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph2" data-week="6">
+  <div class="wk-head"><span class="num">6</span><span class="dates">12–18 Oct</span><label><input type="checkbox"> Done</label>
+    <h3>Distributions, sampling, and the central limit theorem</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip stat">Stats</span>Ch 7 Binomial, Normal, and Poisson Distributions <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 8 Elementary Sampling Theory (sampling distributions, standard error, CLT) <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 35 Improper Integrals <span class="tag">Core, needed for the normal density</span></li>
+      <li><span class="chip calc">Calc</span>Ch 42 Sequences, Ch 43 Infinite Series <span class="tag">Skim</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>The Bernoulli/binomial is a sigmoid output and binary cross-entropy. The Gaussian is weight initialisation, the noise added at each step of a diffusion model, the latent prior of a VAE, and the assumption behind mean-squared-error loss. Poisson models counts (tokens per document, events per hour). The central limit theorem is why a minibatch gradient is approximately the true gradient plus Gaussian noise, which is the whole justification for stochastic gradient descent and the reason batch size trades off against noise.</p></div>
+    <div class="build"><h4>Build</h4><p>Draw samples from a skewed distribution, average them in batches of 1, 8, 64, 512, and watch the histogram of batch means turn Gaussian with standard error shrinking as 1/√n. Overlay the normal density you integrated by hand.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph2" data-week="7">
+  <div class="wk-head"><span class="num">7</span><span class="dates">19–25 Oct</span><label><input type="checkbox"> Done</label>
+    <h3>Estimation, decisions, and testing whether a model is better</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip stat">Stats</span>Ch 9 Statistical Estimation Theory (unbiased and efficient estimators, confidence intervals) <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 10 Statistical Decision Theory (hypotheses, Type I/II errors, power, p-values) <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 11 Small Sampling Theory (t and chi-square distributions) <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 12 The Chi-Square Test <span class="tag">Skim</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Maximum likelihood estimation is model training: minimising negative log-likelihood is the same act as fitting parameters, and cross-entropy loss is MLE for a categorical output. Confidence intervals are what an honest evaluation reports on accuracy or win-rate; a 0.4-point gain on a 500-example eval is usually noise. Type I and II errors map directly to false positives and negatives and to the threshold you set on a classifier. Chi-square tests check whether a feature and a label are independent, and whether an LLM's output categories differ between two prompts.</p></div>
+    <div class="build"><h4>Build</h4><p>Bootstrap a 95% confidence interval for the accuracy of a classifier on a held-out set. Simulate two models with true accuracies 0.80 and 0.82 on 500 examples and count how often a paired test can tell them apart.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph2" data-week="8">
+  <div class="wk-head"><span class="num">8</span><span class="dates">26 Oct – 1 Nov</span><label><input type="checkbox"> Done</label>
+    <h3>Least squares, correlation, and the multivariable chain rule</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip stat">Stats</span>Ch 13 Curve Fitting and Least Squares <span class="tag">Core</span></li>
+      <li><span class="chip stat">Stats</span>Ch 14 Correlation Theory <span class="tag">Core</span>; Ch 15 Multiple and Partial Correlation <span class="tag">Skim</span></li>
+      <li><span class="chip calc">Calc</span>Ch 48 Partial Derivatives <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 49 Total Differential, Differentiability, Chain Rules <span class="tag">Core, read twice</span></li>
+      <li><span class="chip calc">Calc</span>Ch 47 Taylor and Maclaurin Series <span class="tag">Core</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Linear regression by least squares is the first machine-learning model and the normal equations tie it back to Week 2. Correlation versus causation is the discipline behind feature selection and behind reading any evaluation. The multivariable chain rule <em>is</em> backpropagation: automatic differentiation is a machine that applies Ch 49 across a computation graph. The total differential is a first-order Taylor expansion, which is what gradient descent assumes about the loss near the current weights.</p></div>
+    <div class="build"><h4>Build</h4><p>Fit linear regression three ways: the normal equations, gradient descent with hand-derived partial derivatives, and <code>np.polyfit</code>. Then differentiate a small two-layer network by hand using the chain rule and check against finite differences.</p></div>
+    <div class="check"><b>Phase 2 checkpoint.</b> You should be able to derive cross-entropy loss from maximum likelihood, explain why SGD works from the CLT, and compute gradients of a two-layer network by hand.</div></div>
+  </div>
+</section>
+
+<h2>Phase 3 · Structure and dynamics (Weeks 9–12)</h2>
+
+<section class="week ph3" data-week="9">
+  <div class="wk-head"><span class="num">9</span><span class="dates">2–8 Nov</span><label><input type="checkbox"> Done</label>
+    <h3>Gradients, curvature, and constrained optimisation</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip calc">Calc</span>Ch 50 Space Vectors, Ch 52 Directional Derivatives and Extrema (gradient, Hessian test, Lagrange multipliers) <span class="tag">Core</span></li>
+      <li><span class="chip calc">Calc</span>Ch 21 Differentials and Newton's Method <span class="tag">Core</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 16 Calculus of Variations (Euler's equation, constraints, Lagrange multipliers) <span class="tag">Skim theory; Optional problems</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>The gradient points uphill, so the negative gradient is the descent direction; the directional derivative tells you how much a step in any direction changes the loss. The Hessian describes curvature: sharp versus flat minima, why Adam rescales per-parameter, and why second-order methods are expensive. Newton's method is the ancestor of every quasi-Newton optimiser. Lagrange multipliers turn constrained problems into unconstrained ones, which is how SVMs are derived and how a KL penalty in PPO or RLHF keeps a fine-tuned policy close to its base model.</p></div>
+    <div class="build"><h4>Build</h4><p>Write gradient descent with numerical gradients on the Rosenbrock function and plot the path. Add momentum and see the difference. Solve "maximise xy subject to x + y = 10" with a Lagrange multiplier and by substitution.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph3" data-week="10">
+  <div class="wk-head"><span class="num">10</span><span class="dates">9–15 Nov</span><label><input type="checkbox"> Done</label>
+    <h3>Eigenvalues, the spectral theorem, and singular values</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip la">LinAlg</span>Ch 9 Diagonalization: Eigenvalues and Eigenvectors (9.1–9.6) <span class="tag">Core, the most important chapter in the four books</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 12 Bilinear, Quadratic, Hermitian Forms (12.5–12.6 quadratic forms, law of inertia) <span class="tag">Core</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 13 Linear Operators on Inner Product Spaces (13.4–13.10: self-adjoint, orthogonal/unitary, positive definite, spectral theorem) <span class="tag">Core</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 15 Matrices (eigenvalue theorems) <span class="tag">Skim, as a second angle</span></li>
+      <li><span class="chip la">LinAlg</span>Ch 10 Canonical Forms, Ch 11 Dual Space <span class="tag">Optional</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>PCA is the eigendecomposition of a covariance matrix. Applying the spectral theorem to <em>AᵀA</em> gives the singular value decomposition, which none of the four books names but which you can now derive; SVD is low-rank approximation, model compression, the initialisation used by some LoRA variants, and the way to read what an attention head "does". Eigenvalues of the Hessian are the curvature you met last week. The spectral norm bounds how much a layer can stretch an input, which is Lipschitz control in GANs and robustness work. Eigenvectors of a transition matrix give PageRank and the stationary distribution of a Markov chain; eigenvectors of a graph Laplacian are what graph neural networks and spectral clustering operate on.</p></div>
+    <div class="build"><h4>Build</h4><p>Implement PCA via <code>np.linalg.eigh</code> on the covariance matrix and via SVD of the centred data; confirm they match. Compress a grayscale image by keeping the top-k singular values and plot error against k. Implement power iteration and recover the dominant eigenvector.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph3" data-week="11">
+  <div class="wk-head"><span class="num">11</span><span class="dates">16–22 Nov</span><label><input type="checkbox"> Done</label>
+    <h3>Multiple integrals, vector calculus, and Fourier</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip calc">Calc</span>Ch 54 Double and Iterated Integrals, Ch 57 Triple Integrals <span class="tag">Core theory, light on problems</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 5 Vector Analysis (gradient, divergence, Jacobian, change of variables) <span class="tag">Core</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 6 Multiple, Line and Surface Integrals <span class="tag">Skim</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 7 Fourier Series <span class="tag">Core</span>; Ch 8 Fourier Integrals <span class="tag">Skim</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Multiple integrals are marginalisation: <em>p(x) = ∫ p(x, z) dz</em> is the intractable quantity that VAEs bound with the ELBO and that diffusion models sidestep. The Jacobian and change-of-variables formula are the entire mechanism of normalising flows and the reason the determinant reappears. Fourier series explain sinusoidal positional encodings and RoPE in transformers, why a convolution is a multiplication in frequency space, why networks learn low frequencies first, and what a spectrogram is before an audio model sees it.</p></div>
+    <div class="build"><h4>Build</h4><p>Generate the sinusoidal positional-encoding matrix from the transformer paper's formula and plot it as a heatmap; check that nearby positions have higher dot products. Verify the convolution theorem with <code>np.fft</code> on a 1-D signal. Monte-Carlo estimate a double integral and compare with the iterated integral.</p></div></div>
+  </div>
+</section>
+
+<section class="week ph3" data-week="12">
+  <div class="wk-head"><span class="num">12</span><span class="dates">23–29 Nov</span><label><input type="checkbox"> Done</label>
+    <h3>Differential equations and the dynamics of generative models</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Read</h4><ul>
+      <li><span class="chip adv">AdvMath</span>Ch 2 Ordinary Differential Equations (first-order, separable, linear) <span class="tag">Core</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 3 Linear Differential Equations <span class="tag">Skim</span></li>
+      <li><span class="chip calc">Calc</span>Ch 59 Differential Equations of First and Second Order <span class="tag">Core, as the gentler version</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 9 Gamma, Beta and Other Special Functions <span class="tag">Core theory</span></li>
+      <li><span class="chip adv">AdvMath</span>Ch 4 Laplace Transforms, Ch 12 Partial Differential Equations <span class="tag">Optional</span></li>
+    </ul></div>
+    <div class="col"><div class="why"><h4>Where it lives in AI</h4><p>Gradient descent with a small step size is Euler's method on the ODE <em>dw/dt = −∇L</em>, and learning-rate schedules are its time-stepping. Neural ODEs make that literal. Diffusion models add Gaussian noise via a first-order linear stochastic differential equation and generate by integrating it backwards; the sampler you choose (DDIM, Euler, Heun) is an ODE solver from this chapter. Exponential moving averages of weights and Adam's moment estimates are discretised first-order linear ODEs. The gamma and beta functions define the Beta and Dirichlet distributions used as priors in Bayesian models and in topic modelling.</p></div>
+    <div class="build"><h4>Build</h4><p>Simulate the forward diffusion process on 1-D data with the closed-form noising formula and watch the distribution become standard normal. Implement Euler and Heun steps on a simple ODE and compare error. Plot the Beta distribution for several parameter pairs using the beta function.</p></div></div>
+  </div>
+</section>
+
+<h2>Week 13 · Consolidation</h2>
+
+<section class="week ph4" data-week="13">
+  <div class="wk-head"><span class="num">13</span><span class="dates">30 Nov – 6 Dec</span><label><input type="checkbox"> Done</label>
+    <h3>Capstone build and the written map</h3></div>
+  <div class="cols">
+    <div class="col"><h4>Do</h4><ul>
+      <li>Mon–Tue: re-work the supplementary problems you got wrong or skipped in Weeks 4, 8 and 10 (the three checkpoint weeks).</li>
+      <li>Wed–Fri: the capstone build, below.</li>
+      <li>Sat: write a two-page document in your own words: for each chapter you studied, one line on where it appears in a modern AI stack. This is the artefact that will still be useful in a year.</li>
+      <li>Sun: decide what to fill next from the gap list.</li>
+    </ul></div>
+    <div class="col"><div class="build"><h4>Capstone build (NumPy only)</h4><p>A single-head self-attention block from scratch: token embeddings plus sinusoidal positions (Wk 1, 11), Q/K/V projections (Wk 3), scaled dot-product scores (Wk 1, 4), softmax with log-sum-exp (Wk 3), a residual connection and LayerNorm (Wk 4), and a cross-entropy loss with hand-derived gradients for the output layer (Wk 7, 8), trained with SGD plus momentum (Wk 6, 9) on a toy next-token task. Then reduce the attention weight matrices with SVD (Wk 10) and measure how much rank you can remove before loss degrades.</p></div></div>
+  </div>
+</section>
+
+<h2>What these four books do not cover</h2>
+<p>The Schaum's set is strong on the classical core and silent on several things a modern AI engineer needs. Plan to fill these from other sources after Week 13 (the free textbook <em>Mathematics for Machine Learning</em> by Deisenroth, Faisal and Ong covers most of them, as do the Stanford CS229 lecture notes).</p>
+<div class="gaps">
+  <div><b>Information theory</b>Entropy, cross-entropy, KL divergence, mutual information. The loss functions of language models and the objective of RLHF are written in this language.</div>
+  <div><b>Singular value decomposition, named</b>Derivable from Week 10 but never stated as its own topic. Worth a dedicated treatment.</div>
+  <div><b>Multivariate Gaussian</b>Covariance matrices, Mahalanobis distance, conditioning and marginalising. Gaussian processes, Kalman filters, and the maths inside diffusion.</div>
+  <div><b>Markov chains and MDPs</b>Stationary distributions, Bellman equations, policy gradients. Needed for RL, RLHF and agentic decision-making.</div>
+  <div><b>Matrix calculus notation</b>Jacobians of matrix-valued functions and the layout conventions used in papers and autodiff.</div>
+  <div><b>Convex optimisation</b>Convex sets and functions, duality, KKT conditions. Explains when a training problem has a unique answer.</div>
+  <div><b>Numerical stability</b>Floating point, conditioning, mixed precision. Why fp16 training diverges and bf16 does not.</div>
+  <div><b>Measure-theoretic probability</b>Optional. Only needed for reading theory papers on SDEs and score matching rigorously.</div>
+</div>
+
+<h2>Chapter-to-AI map</h2>
+<div class="scroll"><table class="map">
+<tr><th>Mathematics</th><th>Classical ML</th><th>Deep learning</th><th>Generative AI and LLMs</th></tr>
+<tr><td>Matrix algebra, rank</td><td>Linear/logistic regression, feature matrices</td><td>Dense layers, batching, GPU kernels</td><td>Attention scores, LoRA, quantisation</td></tr>
+<tr><td>Inner products, norms</td><td>k-NN, SVM kernels, regularisation</td><td>LayerNorm, gradient clipping, weight decay</td><td>Embedding retrieval, RAG, contrastive learning (CLIP)</td></tr>
+<tr><td>Eigen/SVD, quadratic forms</td><td>PCA, spectral clustering, ridge regression</td><td>Hessian curvature, spectral norm, initialisation</td><td>Low-rank adapters, model compression, head analysis</td></tr>
+<tr><td>Derivatives, chain rule, Taylor</td><td>Gradient descent, Newton's method</td><td>Backpropagation, autodiff, Adam</td><td>Training stability, learning-rate schedules</td></tr>
+<tr><td>Lagrange multipliers</td><td>SVM dual, constrained least squares</td><td>Constrained fine-tuning</td><td>KL penalties in PPO / RLHF / DPO derivations</td></tr>
+<tr><td>Probability, Bayes, expectation</td><td>Naive Bayes, Bayesian inference, expected risk</td><td>Dropout as noise, calibration</td><td>Sampling temperature, top-p, posterior over latents</td></tr>
+<tr><td>Distributions, CLT</td><td>MLE, generalised linear models</td><td>Init schemes, SGD noise, BatchNorm</td><td>Gaussian noise in diffusion, VAE prior</td></tr>
+<tr><td>Estimation and testing</td><td>Cross-validation, confidence intervals</td><td>Reporting results with error bars</td><td>LLM evals, A/B tests, win-rate significance</td></tr>
+<tr><td>Multiple integrals, Jacobians</td><td>Marginal likelihood</td><td>Normalising flows</td><td>ELBO, VAEs, change of variables in samplers</td></tr>
+<tr><td>Fourier analysis</td><td>Signal features, kernels</td><td>Convolutions, spectral bias</td><td>Positional encodings, RoPE, audio and vision tokens</td></tr>
+<tr><td>Differential equations</td><td>Dynamical systems view of GD</td><td>Neural ODEs, EMA of weights</td><td>Diffusion SDE/ODE, samplers (DDIM, Euler, Heun)</td></tr>
+</table></div>
+
+<footer>Built 6 September 2026 from the tables of contents of the four uploaded outlines. Chapter numbers refer to: Lipschutz &amp; Lipson, Linear Algebra 4th ed.; Ayres &amp; Mendelson, Calculus 5th ed.; Spiegel &amp; Stephens, Statistics; Spiegel, Advanced Mathematics for Engineers and Scientists. Ticking a week is remembered in this browser only.</footer>
+
+</main>
+<script>
+(function(){
+  var KEY='math-ai-13wk-done';
+  var done={};
+  try{ done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ done={}; }
+  var weeks=document.querySelectorAll('.week[data-week]');
+  Array.prototype.forEach.call(weeks,function(w){
+    var n=w.getAttribute('data-week'), cb=w.querySelector('input[type=checkbox]');
+    if(!cb) return;
+    if(done[n]){ cb.checked=true; w.classList.add('done'); }
+    cb.addEventListener('change',function(){
+      w.classList.toggle('done',cb.checked);
+      done[n]=cb.checked;
+      try{ localStorage.setItem(KEY,JSON.stringify(done)); }catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# Jekyll configuration for the Math for AI site.
+# Built and deployed by .github/workflows/pages.yml (source folder: math-for-ai/).
+title: Math for AI
+description: A 13-week study path through four Schaum's Outlines, mapped to the mathematics used in machine learning, deep learning and generative AI.
+baseurl: "/Health_Data_Science_Projects"   # repo name; change if the repo is renamed
+url: "https://mandelakibiriti.github.io"
+
+theme: minima
+minima:
+  skin: classic
+
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  input: GFM
+
+permalink: pretty
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-relative-links   # turns links to .md files into links to the built pages
+
+relative_links:
+  enabled: true
+  collections: false
+
+# Every .md under schedule/ and concepts/ renders with the page layout
+defaults:
+  - scope: { path: "schedule" }
+    values: { layout: page, kind: week }
+  - scope: { path: "concepts" }
+    values: { layout: page, kind: concept }
+
+header_pages:
+  - index.md
+  - schedule.md
+  - concepts.md
+  - notebooks.md
+
+exclude:
+  - notebooks/*.ipynb  # linked directly on GitHub, not built by Jekyll
+  - concepts/_template.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
