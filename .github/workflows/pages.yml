@@ -4,7 +4,7 @@ name: Deploy Math for AI site
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/publish-math-for-ai-site]
     paths:
       - "math-for-ai-site/math-for-ai/**"
       - ".github/workflows/pages.yml"
