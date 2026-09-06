@@ -42,3 +42,4 @@ exclude:
   - concepts/_template.md
   - Gemfile
   - Gemfile.lock
+  - vendor
